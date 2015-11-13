@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
 Model – название модели.
 Origin – страна производства.
@@ -14,16 +13,16 @@ Parameters – длина (в метрах), ширина (в метрах), в�
 Price – цена в талерах
 -->
 <planes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="/xml/planes.xsd">
+        xsi:noNamespaceSchemaLocation="planes.xsd">
     <plane>
         <model>Су-7</model>
         <origin>СССР</origin>
         <chars>
             <type>истребитель</type>
             <seats>1</seats>
-            <weapons>1</weapons>
+            <weapons>true</weapons>
             <missiles>0</missiles>
-            <hasRadar>some_word</hasRadar>
+            <hasRadar>false</hasRadar>
         </chars>
         <parameters>
             <length>9.14</length>
@@ -42,9 +41,9 @@ Price – цена в талерах
         <chars>
             <type>разведчик</type>
             <seats>3</seats>
-            <weapons>1</weapons>
+            <weapons>true</weapons>
             <missiles>0</missiles>
-            <hasRadar>1</hasRadar>
+            <hasRadar>true</hasRadar>
         </chars>
         <parameters>
             <length>12.00</length>
@@ -63,9 +62,9 @@ Price – цена в талерах
         <chars>
             <type>перехватчик</type>
             <seats>1</seats>
-            <weapons>1</weapons>
+            <weapons>true</weapons>
             <missiles>5</missiles>
-            <hasRadar>1</hasRadar>
+            <hasRadar>true</hasRadar>
         </chars>
         <parameters>
             <length>15.33</length>
@@ -84,9 +83,9 @@ Price – цена в талерах
         <chars>
             <type>перехватчик</type>
             <seats>1</seats>
-            <weapons>1</weapons>
+            <weapons>true</weapons>
             <missiles>4</missiles>
-            <hasRadar>1</hasRadar>
+            <hasRadar>true</hasRadar>
         </chars>
         <parameters>
             <length>12.6</length>

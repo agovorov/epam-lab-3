@@ -1,6 +1,7 @@
 package com.epam.ag.importer;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -9,5 +10,7 @@ import java.util.List;
 public interface Importer {
 
     List parse(File f);
+
+    // List parse(InputStream is);
 
 }

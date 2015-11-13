@@ -1,7 +1,8 @@
 package com.epam.ag;
 
 import com.epam.ag.entity.Aircraft;
-import com.epam.ag.importer.*;
+import com.epam.ag.importer.AircraftSAXParser;
+import com.epam.ag.importer.ImportFactory;
 import org.slf4j.Logger;
 
 import java.io.File;
@@ -36,11 +37,16 @@ public class App {
 
     public static void main(String[] args) {
         log.trace("Loading xml file");
-        File planesXmlFile = new File("./resources/xml/planes.xml");
+        ClassLoader classLoader = App.class.getClassLoader();
+        File planesXmlFile = new File(classLoader.getResource("xml/planes.xml").getFile());
 
-        // Import from XML to class
-        List<Aircraft> planes_sax = ImportFactory.importFromXML(planesXmlFile, AircraftSAXParser.class);
-//        List<Aircraft> planes_stax = ImportFactory.importFromXML(planesXmlFile, AircraftSTASParser.class);
-//        List<Aircraft> planes_dom = ImportFactory.importFromXML(planesXmlFile, AircraftDOMParser.class);
+        if (planesXmlFile.exists()) {
+            log.trace("XML file found `{}`", planesXmlFile.getName());
+
+            // Import from XML to class
+            List<Aircraft> planes_sax = ImportFactory.importFromXML(planesXmlFile, AircraftSAXParser.class);
+            //        List<Aircraft> planes_stax = ImportFactory.importFromXML(planesXmlFile, AircraftSTASParser.class);
+            //        List<Aircraft> planes_dom = ImportFactory.importFromXML(planesXmlFile, AircraftDOMParser.class);}
+        }
     }
 }
