@@ -21,11 +21,12 @@ import java.util.Map;
 public class SAXHandler extends DefaultHandler {
 
     private static final Logger log = LoggerFactory.getLogger(SAXHandler.class);
-    private static HashMap<String, Class<?>> methodTypes;
-    //private static Map<Class, Function> converters ?? Javascript OR Apache XPath
-    private static Map<Class, Object> converters;
+    private static Map<String, Class<?>> methodTypes;
+    private static Map<String, Method> methods;
 
-    private static HashMap<String, Class> elementType;
+    //private static Map<Class, Function> converters ?? Javascript OR Apache XPath
+    //private static Map<Class, Object> converters;
+    //private static HashMap<String, Class> elementType;
 
     private StringBuilder accumulator;
     private String currentTagName;
@@ -37,6 +38,7 @@ public class SAXHandler extends DefaultHandler {
      */
     public void scanClassForMethods() {
         methodTypes = new HashMap<>();
+        methods = new HashMap<>();
 
         Class targetClass = Aircraft.class;
         Method[] declaredMethods = targetClass.getDeclaredMethods();
@@ -46,6 +48,7 @@ public class SAXHandler extends DefaultHandler {
                 if (types.length > 0) {
                     final Class<?> c = types[0];
                     methodTypes.put(method.getName(), c);
+                    methods.put(method.getName(), method);
                 }
             }
         }
@@ -57,18 +60,19 @@ public class SAXHandler extends DefaultHandler {
             public void runCommand() { System.out.println("help"); };
         });
         */
-
-        converters.put(String.class, new Object(){
-           public String convert(String value) {
-               return value;
-           }
+    /*
+        converters.put(String.class, new Object() {
+            public String convert(String value) {
+                return value;
+            }
         });
 
-        converters.put(int.class, new Object(){
+        converters.put(int.class, new Object() {
             public int convert(String value) {
                 return Integer.valueOf(value);
             }
         });
+        */
     }
 
     // https://docs.oracle.com/javase/tutorial/jaxp/sax/parsing.html
@@ -147,49 +151,33 @@ public class SAXHandler extends DefaultHandler {
         String methodNameCase = param.substring(0, 1).toUpperCase() + param.substring(1);
         String setMethodName = "set" + methodNameCase;
 
-        //methodTypes
-        System.out.println(setMethodName);
         if (!methodTypes.containsKey(setMethodName)) {
             return;
         }
 
         Class<?> fieldType = methodTypes.get(setMethodName);
-        System.out.println(fieldType);
-        System.out.println("------");
-
-
-        // Без этого не получается вызвать метод класса
-        Class targetClass = aircraft.getClass().getSuperclass();
+        String typeClass = fieldType.getSimpleName();
         try {
-            Method setMethodObject = targetClass.getDeclaredMethod(
-                    setMethodName,
-                    fieldType
-            );
+            Method setMethodObject = methods.get(setMethodName);
+            switch (typeClass) {
+                case "int":
+                    setMethodObject.invoke(aircraft, Integer.valueOf(value));
+                    break;
 
-            setMethodObject.invoke(aircraft, String.valueOf(value));
+                case "boolean":
+                    setMethodObject.invoke(aircraft, Boolean.valueOf(value));
+                    break;
 
+                case "double":
+                    setMethodObject.invoke(aircraft, Double.valueOf(value));
+                    break;
 
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                default:
+                    setMethodObject.invoke(aircraft, String.valueOf(value));
+            }
+        } catch (IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }
-
-        /*try {
-
-            if (typeClass.getSimpleName().equals("int")) {
-                setMethodObject.invoke(aircraft, Integer.valueOf(value));
-            } else if (typeClass.getSimpleName().equals("boolean")) {
-                setMethodObject.invoke(aircraft, Boolean.valueOf(value));
-            } else if (typeClass.getSimpleName().equals("double")) {
-                setMethodObject.invoke(aircraft, Double.valueOf(value));
-            } else {
-                setMethodObject.invoke(aircraft, String.valueOf(value));
-            }
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            System.err.println("----- ERRROR-----");
-            System.err.println(e.getMessage());
-            System.err.println("-----------------");
-        }
-        */
     }
 
 
