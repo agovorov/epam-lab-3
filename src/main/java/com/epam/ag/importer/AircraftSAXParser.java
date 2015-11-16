@@ -22,16 +22,19 @@ public class AircraftSAXParser implements Importer {
 
     @Override
     public List parse(File f) {
+        System.out.println("ASassasa");
         // Read XML
         SAXParserFactory factory = SAXParserFactory.newInstance();
         SAXParser parser;
+        SAXHandler handler = new SAXHandler();
         try {
             parser = factory.newSAXParser();
-            parser.parse(f, new SAXHandler());
+            parser.parse(f, handler);
         } catch (ParserConfigurationException | SAXException | IOException e) {
             log.error("Unable to parse XML file `{}`", f.getName());
             throw new RuntimeException("Unable to parse file");
         }
-        return null;
+
+        return handler.returnList();
     }
 }

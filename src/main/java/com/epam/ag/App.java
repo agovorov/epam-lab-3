@@ -45,8 +45,15 @@ public class App {
 
             // Import from XML to class
             List<Aircraft> planes_sax = ImportFactory.importFromXML(planesXmlFile, AircraftSAXParser.class);
-            //        List<Aircraft> planes_stax = ImportFactory.importFromXML(planesXmlFile, AircraftSTASParser.class);
-            //        List<Aircraft> planes_dom = ImportFactory.importFromXML(planesXmlFile, AircraftDOMParser.class);}
+            // List<Aircraft> planes_stax = ImportFactory.importFromXML(planesXmlFile, AircraftSTASParser.class);
+            // List<Aircraft> planes_dom = ImportFactory.importFromXML(planesXmlFile, AircraftDOMParser.class);}
+
+            // Show result
+            if (!planes_sax.isEmpty()) {
+                for(Aircraft aircraft : planes_sax) {
+                    System.out.println( aircraft.toString() );
+                }
+            }
         }
     }
 }

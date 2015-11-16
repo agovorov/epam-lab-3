@@ -17,13 +17,13 @@ Price – цена в талерах
     <plane>
         <model>Су-7</model>
         <origin>СССР</origin>
-        <chars>
+        <characteristics>
             <type>истребитель</type>
             <seats>1</seats>
             <weapons>true</weapons>
             <missiles>0</missiles>
             <hasRadar>false</hasRadar>
-        </chars>
+        </characteristics>
         <parameters>
             <length>9.14</length>
             <width>13.50</width>
@@ -38,13 +38,13 @@ Price – цена в талерах
     <plane>
         <model>Heinkel He 70</model>
         <origin>Германия</origin>
-        <chars>
+        <characteristics>
             <type>разведчик</type>
             <seats>3</seats>
             <weapons>true</weapons>
             <missiles>0</missiles>
             <hasRadar>true</hasRadar>
-        </chars>
+        </characteristics>
         <parameters>
             <length>12.00</length>
             <width>14.80</width>
@@ -59,13 +59,13 @@ Price – цена в талерах
     <plane>
         <model>Су-39</model>
         <origin>СССР</origin>
-        <chars>
+        <characteristics>
             <type>перехватчик</type>
             <seats>1</seats>
             <weapons>true</weapons>
             <missiles>5</missiles>
             <hasRadar>true</hasRadar>
-        </chars>
+        </characteristics>
         <parameters>
             <length>15.33</length>
             <width>14.36</width>
@@ -80,13 +80,13 @@ Price – цена в талерах
     <plane>
         <model>Douglas A-4 Skyhawk</model>
         <origin>США</origin>
-        <chars>
+        <characteristics>
             <type>перехватчик</type>
             <seats>1</seats>
             <weapons>true</weapons>
             <missiles>4</missiles>
             <hasRadar>true</hasRadar>
-        </chars>
+        </characteristics>
         <parameters>
             <length>12.6</length>
             <width>8.4</width>

@@ -1,8 +1,10 @@
 package com.epam.ag.importer;
 
+import com.epam.ag.entity.Plane;
 import org.slf4j.Logger;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,7 +28,6 @@ public class ImportFactory {
             //
             throw new RuntimeException("Unable to create parser instance.");
         }
-
         return importer.parse(f);
     }
 }
