@@ -41,15 +41,15 @@ public class App {
         File planesXmlFile = new File(classLoader.getResource("xml/planes.xml").getFile());
 
         if (planesXmlFile.exists()) {
-            log.trace("XML file found `{}`", planesXmlFile.getName());
+            log.trace("XML file found `{}`. Start parsing.", planesXmlFile.getName());
 
             // Import from XML to class
             List<Aircraft> planes_sax = ImportFactory.importFromXML(planesXmlFile, AircraftSAXParser.class);
             // List<Aircraft> planes_stax = ImportFactory.importFromXML(planesXmlFile, AircraftSTASParser.class);
             // List<Aircraft> planes_dom = ImportFactory.importFromXML(planesXmlFile, AircraftDOMParser.class);}
 
-            // Show result
             if (!planes_sax.isEmpty()) {
+                log.trace("Show result of parsing");
                 for(Aircraft aircraft : planes_sax) {
                     System.out.println( aircraft.toString() );
                 }

@@ -100,7 +100,7 @@ public class SAXHandler extends DefaultHandler {
     public void endElement(String uri, String localName, String qName) throws SAXException {
         if (currentTagName.equals(qName)) {
             // Add field to entity
-            fillAircraftClass(qName, accumulator.toString().trim());
+            fillAircraftClass(qName, accumulator.toString());
         }
 
         if (qName.equals("plane")) {
@@ -118,16 +118,14 @@ public class SAXHandler extends DefaultHandler {
     /**
      * Fill object plane with data
      *
-     * @param param
-     * @param value
+     * @param param Field of the model
+     * @param value Value of the model
      */
     private void fillAircraftClass(String param, String value) {
         String methodNameCase = param.substring(0, 1).toUpperCase() + param.substring(1);
         String setMethodName = "set" + methodNameCase;
 
-        if (!methodTypes.containsKey(setMethodName)) {
-            return;
-        }
+        if (!methodTypes.containsKey(setMethodName)) return;
 
         Class<?> fieldType = methodTypes.get(setMethodName);
         String typeClass = fieldType.getSimpleName();
