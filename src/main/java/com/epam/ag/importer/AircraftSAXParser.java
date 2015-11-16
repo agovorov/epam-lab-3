@@ -22,7 +22,6 @@ public class AircraftSAXParser implements Importer {
 
     @Override
     public List parse(File f) {
-        System.out.println("ASassasa");
         // Read XML
         SAXParserFactory factory = SAXParserFactory.newInstance();
         SAXParser parser;

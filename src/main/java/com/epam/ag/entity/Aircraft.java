@@ -103,19 +103,19 @@ public abstract class Aircraft {
         this.height = height;
     }
 
-    public double getPriceAmount() {
+    public double getAmount() {
         return priceAmount;
     }
 
-    public void setPriceAmount(double priceAmount) {
+    public void setAmount(double priceAmount) {
         this.priceAmount = priceAmount;
     }
 
-    public String getPriceCurrency() {
+    public String getCurrency() {
         return priceCurrency;
     }
 
-    public void setPriceCurrency(String priceCurrency) {
+    public void setCurrency(String priceCurrency) {
         this.priceCurrency = priceCurrency;
     }
 

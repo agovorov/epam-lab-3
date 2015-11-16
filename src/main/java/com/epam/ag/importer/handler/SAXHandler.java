@@ -13,6 +13,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Govorov Andrey
@@ -20,51 +21,100 @@ import java.util.List;
 public class SAXHandler extends DefaultHandler {
 
     private static final Logger log = LoggerFactory.getLogger(SAXHandler.class);
+    private static HashMap<String, Class<?>> methodTypes;
+    //private static Map<Class, Function> converters ?? Javascript OR Apache XPath
+    private static Map<Class, Object> converters;
+
+    private static HashMap<String, Class> elementType;
+
     private StringBuilder accumulator;
     private String currentTagName;
     private List<Aircraft> aircrafts;
     private Aircraft aircraft;
 
-    private HashMap<String, Class> elementType;
+    /**
+     * Extract all methods from Aircraft class with its parameters types to methodTypes hashmap
+     */
+    public void scanClassForMethods() {
+        methodTypes = new HashMap<>();
+
+        Class targetClass = Aircraft.class;
+        Method[] declaredMethods = targetClass.getDeclaredMethods();
+        if (declaredMethods.length > 0) {
+            for (Method method : declaredMethods) {
+                Class<?>[] types = method.getParameterTypes();
+                if (types.length > 0) {
+                    final Class<?> c = types[0];
+                    methodTypes.put(method.getName(), c);
+                }
+            }
+        }
+    }
+
+    public void fillConverters() {
+        /*
+        converters.put(String.class, new Command() {
+            public void runCommand() { System.out.println("help"); };
+        });
+        */
+
+        converters.put(String.class, new Object(){
+           public String convert(String value) {
+               return value;
+           }
+        });
+
+        converters.put(int.class, new Object(){
+            public int convert(String value) {
+                return Integer.valueOf(value);
+            }
+        });
+    }
 
     // https://docs.oracle.com/javase/tutorial/jaxp/sax/parsing.html
     // http://www.javacodegeeks.com/2012/01/xml-parsing-using-saxparser-with.html
     @Override
     public void startDocument() throws SAXException {
         log.trace("Start SAX parsing XML file.");
+
+        // Scanning class for methods and types
+        scanClassForMethods();
+
         accumulator = new StringBuilder();
         aircrafts = new ArrayList<>();
 
+        /*
         elementType = new HashMap<>();
 
         elementType.put("model", String.class);
         elementType.put("origin", String.class);
         elementType.put("type", String.class);
-        elementType.put("seats", Integer.class);
-        elementType.put("weapons", Boolean.class);
-        elementType.put("missiles", Integer.class);
-        elementType.put("hasRadar", Boolean.class);
-        elementType.put("length", Double.class);
-        elementType.put("width", Double.class);
-        elementType.put("height", Double.class);
-        elementType.put("amount", Double.class);
+        elementType.put("seats", int.class);
+        elementType.put("weapons", boolean.class);
+        elementType.put("missiles", int.class);
+        elementType.put("hasRadar", boolean.class);
+        elementType.put("length", double.class);
+        elementType.put("width", double.class);
+        elementType.put("height", double.class);
+        elementType.put("amount", double.class);
         elementType.put("currency", String.class);
-
+        */
     }
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         currentTagName = qName;
-
         if (qName.equals("plane")) {
             // New element
             aircraft = new Plane();
             log.trace("New plane element found.");
         }
+        accumulator.setLength(0);
     }
 
     @Override
     public void characters(char[] ch, int start, int length) throws SAXException {
+        log.trace("Append new characters {}", ch);
         accumulator.append(ch, start, length);
     }
 
@@ -78,9 +128,8 @@ public class SAXHandler extends DefaultHandler {
         if (qName.equals("plane")) {
             // Plane is done. Add to list
             aircrafts.add(aircraft);
+            log.trace("Object plane added to list");
         }
-
-        accumulator.setLength(0);
     }
 
     @Override
@@ -97,92 +146,52 @@ public class SAXHandler extends DefaultHandler {
     private void fillAircraftClass(String param, String value) {
         String methodNameCase = param.substring(0, 1).toUpperCase() + param.substring(1);
         String setMethodName = "set" + methodNameCase;
-        //String getMethod = "get" + methodNameCase;
-        Class targetClass = aircraft.getClass().getSuperclass();
 
-        Class<?> returnType = null;
-        try {
-            //Method method = targetClass.getDeclaredMethod(getMethod);
-            Class typeClass = elementType.get(param);
-
-//            returnType = method.getReturnType();
-            //System.out.println(returnType.newInstance().getClass());
-            Method setMethodObject = targetClass.getDeclaredMethod(
-                    setMethodName,
-                    typeClass
-                    //returnType.newInstance().getClass()
-            );
-
-            // Может беда в этом?!
-            System.out.println(typeClass.getSimpleName());
-            if (typeClass.getSimpleName().equals("Integer")) {
-                System.out.println(param + " ===> " + value);
-                setMethodObject.invoke(aircraft, Integer.valueOf(value));
-            } else {
-                setMethodObject.invoke(aircraft, value);
-            }
-
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            System.out.println("----- ERRROR-----");
-            System.out.println(e.getMessage());
-            System.out.println("-----------------");
+        //methodTypes
+        System.out.println(setMethodName);
+        if (!methodTypes.containsKey(setMethodName)) {
+            return;
         }
 
+        Class<?> fieldType = methodTypes.get(setMethodName);
+        System.out.println(fieldType);
+        System.out.println("------");
 
-        //
-        // TODO ЭТО КОШМАР!!!
-        //
-//
-//        switch (param) {
-//            case "model":
-//                aircraft.setModel(value);
-//                break;
-//
-//            case "origin":
-//                aircraft.setOrigin(value);
-//                break;
-//
-//            case "type":
-//                aircraft.setType(value);
-//                break;
-//
-//            case "seats":
-//                aircraft.setSeats(Integer.parseInt(value));
-//                break;
-//
-//            case "weapons":
-//                aircraft.setWeapons(Boolean.parseBoolean(value));
-//                break;
-//
-//            case "missiles":
-//                aircraft.setMissiles(Integer.parseInt(value));
-//                break;
-//
-//            case "hasRadar":
-//                aircraft.setHasRadar(Boolean.parseBoolean(value));
-//                break;
-//
-//            case "length":
-//                aircraft.setLength(Double.parseDouble(value));
-//                break;
-//
-//            case "width":
-//                aircraft.setWidth(Double.parseDouble(value));
-//                break;
-//
-//            case "height":
-//                aircraft.setHeight(Double.parseDouble(value));
-//                break;
-//
-//            case "amount":
-//                aircraft.setPriceAmount(Double.parseDouble(value));
-//                break;
-//
-//            case "currency":
-//                aircraft.setPriceCurrency(value);
-//                break;
-//        }
+
+        // Без этого не получается вызвать метод класса
+        Class targetClass = aircraft.getClass().getSuperclass();
+        try {
+            Method setMethodObject = targetClass.getDeclaredMethod(
+                    setMethodName,
+                    fieldType
+            );
+
+            setMethodObject.invoke(aircraft, String.valueOf(value));
+
+
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+
+        /*try {
+
+            if (typeClass.getSimpleName().equals("int")) {
+                setMethodObject.invoke(aircraft, Integer.valueOf(value));
+            } else if (typeClass.getSimpleName().equals("boolean")) {
+                setMethodObject.invoke(aircraft, Boolean.valueOf(value));
+            } else if (typeClass.getSimpleName().equals("double")) {
+                setMethodObject.invoke(aircraft, Double.valueOf(value));
+            } else {
+                setMethodObject.invoke(aircraft, String.valueOf(value));
+            }
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            System.err.println("----- ERRROR-----");
+            System.err.println(e.getMessage());
+            System.err.println("-----------------");
+        }
+        */
     }
+
 
     public List returnList() {
         return aircrafts;
