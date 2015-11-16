@@ -2,6 +2,10 @@ package com.epam.ag.importer.handler;
 
 import com.epam.ag.entity.Aircraft;
 import com.epam.ag.entity.Plane;
+import com.epam.ag.entity.converter.BooleanConverter;
+import com.epam.ag.entity.converter.Converter;
+import com.epam.ag.entity.converter.DoubleConverter;
+import com.epam.ag.entity.converter.IntegerConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.Attributes;
@@ -23,10 +27,7 @@ public class SAXHandler extends DefaultHandler {
     private static final Logger log = LoggerFactory.getLogger(SAXHandler.class);
     private static Map<String, Class<?>> methodTypes;
     private static Map<String, Method> methods;
-
-    //private static Map<Class, Function> converters ?? Javascript OR Apache XPath
-    //private static Map<Class, Object> converters;
-    //private static HashMap<String, Class> elementType;
+    private static Map<String, Converter> converters;
 
     private StringBuilder accumulator;
     private String currentTagName;
@@ -34,7 +35,7 @@ public class SAXHandler extends DefaultHandler {
     private Aircraft aircraft;
 
     /**
-     * Extract all methods from Aircraft class with its parameters types to methodTypes hashmap
+     * Extract all methods from Aircraft class with its parameters types to methodTypes map
      */
     public void scanClassForMethods() {
         methodTypes = new HashMap<>();
@@ -54,29 +55,16 @@ public class SAXHandler extends DefaultHandler {
         }
     }
 
+    /**
+     * Map of converters
+     */
     public void fillConverters() {
-        /*
-        converters.put(String.class, new Command() {
-            public void runCommand() { System.out.println("help"); };
-        });
-        */
-    /*
-        converters.put(String.class, new Object() {
-            public String convert(String value) {
-                return value;
-            }
-        });
-
-        converters.put(int.class, new Object() {
-            public int convert(String value) {
-                return Integer.valueOf(value);
-            }
-        });
-        */
+        converters = new HashMap<>();
+        converters.put("int", new IntegerConverter());
+        converters.put("double", new DoubleConverter());
+        converters.put("boolean", new BooleanConverter());
     }
 
-    // https://docs.oracle.com/javase/tutorial/jaxp/sax/parsing.html
-    // http://www.javacodegeeks.com/2012/01/xml-parsing-using-saxparser-with.html
     @Override
     public void startDocument() throws SAXException {
         log.trace("Start SAX parsing XML file.");
@@ -84,25 +72,11 @@ public class SAXHandler extends DefaultHandler {
         // Scanning class for methods and types
         scanClassForMethods();
 
+        // Init converters
+        fillConverters();
+
         accumulator = new StringBuilder();
         aircrafts = new ArrayList<>();
-
-        /*
-        elementType = new HashMap<>();
-
-        elementType.put("model", String.class);
-        elementType.put("origin", String.class);
-        elementType.put("type", String.class);
-        elementType.put("seats", int.class);
-        elementType.put("weapons", boolean.class);
-        elementType.put("missiles", int.class);
-        elementType.put("hasRadar", boolean.class);
-        elementType.put("length", double.class);
-        elementType.put("width", double.class);
-        elementType.put("height", double.class);
-        elementType.put("amount", double.class);
-        elementType.put("currency", String.class);
-        */
     }
 
     @Override
@@ -142,7 +116,7 @@ public class SAXHandler extends DefaultHandler {
     }
 
     /**
-     * Fill object with data
+     * Fill object plane with data
      *
      * @param param
      * @param value
@@ -157,29 +131,19 @@ public class SAXHandler extends DefaultHandler {
 
         Class<?> fieldType = methodTypes.get(setMethodName);
         String typeClass = fieldType.getSimpleName();
+        Method setMethodObject = methods.get(setMethodName);
         try {
-            Method setMethodObject = methods.get(setMethodName);
-            switch (typeClass) {
-                case "int":
-                    setMethodObject.invoke(aircraft, Integer.valueOf(value));
-                    break;
-
-                case "boolean":
-                    setMethodObject.invoke(aircraft, Boolean.valueOf(value));
-                    break;
-
-                case "double":
-                    setMethodObject.invoke(aircraft, Double.valueOf(value));
-                    break;
-
-                default:
-                    setMethodObject.invoke(aircraft, String.valueOf(value));
+            if (converters.containsKey(typeClass)) {
+                Converter converter = converters.get(typeClass);
+                setMethodObject.invoke(aircraft, converter.convert(value));
+            } else {
+                // Default String value
+                setMethodObject.invoke(aircraft, value);
             }
         } catch (IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
+            log.error("Wrong model param `{}`" + param);
         }
     }
-
 
     public List returnList() {
         return aircrafts;
