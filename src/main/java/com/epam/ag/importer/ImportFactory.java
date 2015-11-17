@@ -1,10 +1,8 @@
 package com.epam.ag.importer;
 
-import com.epam.ag.entity.Plane;
 import org.slf4j.Logger;
 
-import java.io.File;
-import java.util.ArrayList;
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -13,7 +11,7 @@ import java.util.List;
 public class ImportFactory {
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(ImportFactory.class);
 
-    public static final List importFromXML(File f, Class clazz) {
+    public static final List importFromXML(InputStream is, Class clazz) {
         Importer importer;
 
         // Loading specified parser class
@@ -28,6 +26,6 @@ public class ImportFactory {
             //
             throw new RuntimeException("Unable to create parser instance.");
         }
-        return importer.parse(f);
+        return importer.parse(is);
     }
 }

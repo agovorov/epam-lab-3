@@ -14,16 +14,13 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Govorov Andrey
  */
 public class SAXHandler extends DefaultHandler {
-
+    private static Class scanClass;
     private static final Logger log = LoggerFactory.getLogger(SAXHandler.class);
     private static Map<String, Class<?>> methodTypes;
     private static Map<String, Method> methods;
@@ -31,18 +28,49 @@ public class SAXHandler extends DefaultHandler {
 
     private StringBuilder accumulator;
     private String currentTagName;
+    private Deque stack;
+
     private List<Aircraft> aircrafts;
     private Aircraft aircraft;
+
+    //
+    // TODO Бредовая функция, но пока это лучшее что придумал
+    //
+    private String getPreviousStackValue() {
+        Iterator x = stack.descendingIterator();
+        if (!x.hasNext()) {
+            return "";
+        }
+        x.next();
+
+        if (!x.hasNext()) {
+            return "";
+        }
+        return (String) x.next();
+    }
+
+    public SAXHandler() {
+        stack = new ArrayDeque();//LinkedList();
+
+        // Scanning class for methods and types
+        scanClassForMethods(Aircraft.class);
+        scanClass = Plane.class;
+
+        // Init converters
+        fillConverters();
+
+        accumulator = new StringBuilder();
+        aircrafts = new ArrayList<>();
+    }
 
     /**
      * Extract all methods from Aircraft class with its parameters types to methodTypes map
      */
-    public void scanClassForMethods() {
+    public void scanClassForMethods(Class clazz) {
         methodTypes = new HashMap<>();
         methods = new HashMap<>();
 
-        Class targetClass = Aircraft.class;
-        Method[] declaredMethods = targetClass.getDeclaredMethods();
+        Method[] declaredMethods = clazz.getMethods();
         if (declaredMethods.length > 0) {
             for (Method method : declaredMethods) {
                 Class<?>[] types = method.getParameterTypes();
@@ -68,26 +96,25 @@ public class SAXHandler extends DefaultHandler {
     @Override
     public void startDocument() throws SAXException {
         log.trace("Start SAX parsing XML file.");
-
-        // Scanning class for methods and types
-        scanClassForMethods();
-
-        // Init converters
-        fillConverters();
-
-        accumulator = new StringBuilder();
-        aircrafts = new ArrayList<>();
     }
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-        currentTagName = qName;
-        if (qName.equals("plane")) {
-            // New element
-            aircraft = new Plane();
-            log.trace("New plane element found.");
-        }
+        stack.addLast(qName);
         accumulator.setLength(0);
+
+        String className = scanClass.getSimpleName().toLowerCase();
+        if (qName.equals(className)) {
+            log.trace("New class element found {}", className);
+            try {
+                //
+                // TODO Нужны генерики для обобщения
+                //
+                aircraft = (Aircraft) scanClass.newInstance();
+            } catch (InstantiationException | IllegalAccessException e) {
+                throw new RuntimeException("Unable to create empty class");
+            }
+        }
     }
 
     @Override
@@ -98,16 +125,18 @@ public class SAXHandler extends DefaultHandler {
 
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
-        if (currentTagName.equals(qName)) {
-            // Add field to entity
-            fillAircraftClass(qName, accumulator.toString());
+        // Add field to entity
+        fillAircraftClass(qName, accumulator.toString());
+
+        // If last model tag - add to list
+        String className = scanClass.getSimpleName().toLowerCase();
+        if (qName.equals(className)) {
+            log.trace("Object plane added to list");
+            aircrafts.add(aircraft);
         }
 
-        if (qName.equals("plane")) {
-            // Plane is done. Add to list
-            aircrafts.add(aircraft);
-            log.trace("Object plane added to list");
-        }
+        // Delete from stack
+        stack.removeLast();
     }
 
     @Override
@@ -122,6 +151,7 @@ public class SAXHandler extends DefaultHandler {
      * @param value Value of the model
      */
     private void fillAircraftClass(String param, String value) {
+        /// String previousTagName = getPreviousStackValue();
         String methodNameCase = param.substring(0, 1).toUpperCase() + param.substring(1);
         String setMethodName = "set" + methodNameCase;
 

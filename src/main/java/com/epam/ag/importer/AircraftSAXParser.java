@@ -10,6 +10,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 
@@ -21,16 +22,15 @@ public class AircraftSAXParser implements Importer {
     private static final Logger log = LoggerFactory.getLogger(AircraftSAXParser.class);
 
     @Override
-    public List parse(File f) {
-        // Read XML
+    public List parse(InputStream is) {
         SAXParserFactory factory = SAXParserFactory.newInstance();
         SAXParser parser;
         SAXHandler handler = new SAXHandler();
         try {
             parser = factory.newSAXParser();
-            parser.parse(f, handler);
+            parser.parse(is, handler);
         } catch (ParserConfigurationException | SAXException | IOException e) {
-            log.error("Unable to parse XML file `{}`", f.getName());
+            log.error("Unable to parse XML file");
             throw new RuntimeException("Unable to parse file");
         }
 

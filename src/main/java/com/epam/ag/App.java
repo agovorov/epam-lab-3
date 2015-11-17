@@ -1,11 +1,13 @@
 package com.epam.ag;
 
 import com.epam.ag.entity.Aircraft;
+import com.epam.ag.importer.AircraftDOMParser;
 import com.epam.ag.importer.AircraftSAXParser;
+import com.epam.ag.importer.AircraftSTAXParser;
 import com.epam.ag.importer.ImportFactory;
 import org.slf4j.Logger;
 
-import java.io.File;
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -38,22 +40,19 @@ public class App {
     public static void main(String[] args) {
         log.trace("Loading xml file");
         ClassLoader classLoader = App.class.getClassLoader();
-        File planesXmlFile = new File(classLoader.getResource("xml/planes.xml").getFile());
+        InputStream xmlStream = classLoader.getResourceAsStream("xml/planes.xml");
 
-        if (planesXmlFile.exists()) {
-            log.trace("XML file found `{}`. Start parsing.", planesXmlFile.getName());
+        //List<Aircraft> planeList = ImportFactory.importFromXML(xmlStream, AircraftSAXParser.class);
+        // List<Aircraft> planeList = ImportFactory.importFromXML(xmlStream, AircraftSTAXParser.class);
+        List<Aircraft> planeList = ImportFactory.importFromXML(xmlStream, AircraftDOMParser.class);
 
-            // Import from XML to class
-            List<Aircraft> planes_sax = ImportFactory.importFromXML(planesXmlFile, AircraftSAXParser.class);
-            // List<Aircraft> planes_stax = ImportFactory.importFromXML(planesXmlFile, AircraftSTASParser.class);
-            // List<Aircraft> planes_dom = ImportFactory.importFromXML(planesXmlFile, AircraftDOMParser.class);}
-
-            if (!planes_sax.isEmpty()) {
-                log.trace("Show result of parsing");
-                for(Aircraft aircraft : planes_sax) {
-                    System.out.println( aircraft.toString() );
-                }
+        if (!planeList.isEmpty()) {
+            log.trace("Show result of parsing");
+            for (Aircraft aircraft : planeList) {
+                System.out.println(aircraft.toString());
             }
+        } else {
+            log.trace("No returned data");
         }
     }
 }

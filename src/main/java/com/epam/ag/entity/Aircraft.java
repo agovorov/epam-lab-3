@@ -12,6 +12,7 @@ public abstract class Aircraft {
     private String model;
     private String origin;
 
+
     // Characteristics
     private String type;
     private int seats;
@@ -28,61 +29,9 @@ public abstract class Aircraft {
     private double priceAmount;
     private String priceCurrency;
 
-    // -------------------------------------
-    //  Это задел на вынос параметров в мапу
-    // Пока не смотрите тут пожалуйста
-    /*private Map<String, _тут_обертка> fields;
-    private Map<String, Object> characteristics;
-    private Map<String, Object> parameters;
-
-    public Aircraft() {
-        characteristics = new HashMap();
-        parameters = new HashMap();
-    }
-
-    public void addCharacteristic(String param, String value) {
-        characteristics.put(param, value);
-    }
-
-    public void addCharacteristic(String param, double value) {
-        characteristics.put(param, value);
-    }
-
-    public void addCharacteristic(String param, boolean value) {
-        characteristics.put(param, value);
-    }
-
-    public void addCharacteristic(String param, int value) {
-        characteristics.put(param, value);
-    }
-
-
-    public void addParameter(String param, String value) {
-        parameters.put(param, value);
-    }
-
-    public void addParameter(String param, double value) {
-        parameters.put(param, value);
-    }
-
-    public void addParameter(String param, boolean value) {
-        parameters.put(param, value);
-    }
-
-    public void addParameter(String param, int value) {
-        parameters.put(param, value);
-    }
-
-
-    public Object getCharacteristic(String param) {
-        return characteristics.get(param);
-    }
-
-    public Object getParameter(String param) {
-        return parameters.get(param);
-    }*/
-    // Дальше уже можно смотреть
-
+    private Characteristic characteristics;
+    private Parameters parameters;
+    private Price price;
 
     public String getModel() {
         return model;

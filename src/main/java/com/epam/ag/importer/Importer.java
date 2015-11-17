@@ -9,8 +9,6 @@ import java.util.List;
  */
 public interface Importer {
 
-    List parse(File f);
-
-    // List parse(InputStream is);
+    List parse(InputStream is);
 
 }
