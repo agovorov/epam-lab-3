@@ -15,12 +15,15 @@ public class Properties {
     }
 
     public void set(String param, Property value) {
-        propertyMap.put(param, new Property(value));
+        propertyMap.put(param, new Property<>(value));
     }
 
+    //
+    // TODO Что подсвечивает Idea
+    //
     public <T> T get(String param, Class<T> clazz) {
-        System.out.println( clazz );
         return (T) propertyMap.get(param);
+        //return clazz.cast(propertyMap.get(param));
     }
 
     @Override

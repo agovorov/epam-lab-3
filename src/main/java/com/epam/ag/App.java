@@ -2,6 +2,7 @@ package com.epam.ag;
 
 import com.epam.ag.entity.Aircraft;
 import com.epam.ag.entity.Plane;
+import com.epam.ag.entity.Properties;
 import com.epam.ag.entity.Property;
 import org.slf4j.Logger;
 
@@ -49,12 +50,37 @@ public class App {
         plane.setCharacteristic("missiles", 0);
         plane.setCharacteristic("hasRadar", false);
 
+
+
+        // TEST 1
+//        Property p = new Property<Integer>(5);
+//        int w = p.getValue();
+//
+//        System.out.println( w);
+
+
+
+        // TEST 2
+        Properties pp = new Properties();
+        pp.set("par1", new Property<>(5));
+        pp.set("par2", new Property<>("test"));
+
+        int x = pp.get("par1", Integer.class);
+        String s = pp.get("par2", String.class);
+        System.out.println("X = " + x);
+
+
+
+
+
+
+
         // Надо чтобы работало :(
         //System.out.println( plane.getChar() );
 
         //String  a1 = plane.get("type", String.class);
-//        int     a2 = plane.get("seats", Integer.class);
-        boolean a3 = plane.get("weapons", Boolean.class);
+        //int     a2 = plane.get("seats", Integer.class);
+        // boolean a3 = plane.get("weapons", Boolean.class);
 //        int     a4 = plane.get("missiles", Integer.class);
 //        boolean a5 = plane.get("hasRadar", Boolean.class);
 

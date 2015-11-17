@@ -11,6 +11,7 @@ public class Property<T> {
     }
 
     public T getValue() {
+        System.out.println( getClass() );
         return value;
     }
 
