@@ -46,8 +46,8 @@ public class App {
         InputStream xmlStream = classLoader.getResourceAsStream("xml/planes.xml");
 
         //List<Aircraft> planeList = ImportFactory.importFromXML(xmlStream, AircraftSAXParser.class);
-        //List<Aircraft> planeList = ImportFactory.importFromXML(xmlStream, AircraftSTAXParser.class);
-        List<Aircraft> planeList = ImportFactory.importFromXML(xmlStream, AircraftDOMParser.class);
+        List<Aircraft> planeList = ImportFactory.importFromXML(xmlStream, AircraftSTAXParser.class);
+        //List<Aircraft> planeList = ImportFactory.importFromXML(xmlStream, AircraftDOMParser.class);
 
         if (!planeList.isEmpty()) {
             log.trace("Show result of parsing");
@@ -55,6 +55,8 @@ public class App {
                 System.out.println(aircraft.toString());
             }
 
+
+            /*
             // We need a wrapper to JAXB
             Planes planesWrapper = new Planes(planeList);
 
@@ -65,6 +67,7 @@ public class App {
             } else {
                 log.info("Data successfully saved to xml!");
             }
+            */
         } else {
             log.trace("No returned data");
         }
