@@ -1,6 +1,9 @@
 package com.epam.ag;
 
 import com.epam.ag.entity.Aircraft;
+import com.epam.ag.entity.Planes;
+import com.epam.ag.exporter.EntityExporter;
+import com.epam.ag.exporter.JaxBExporter;
 import com.epam.ag.importer.AircraftDOMParser;
 import com.epam.ag.importer.AircraftSAXParser;
 import com.epam.ag.importer.AircraftSTAXParser;
@@ -43,13 +46,24 @@ public class App {
         InputStream xmlStream = classLoader.getResourceAsStream("xml/planes.xml");
 
         //List<Aircraft> planeList = ImportFactory.importFromXML(xmlStream, AircraftSAXParser.class);
-        // List<Aircraft> planeList = ImportFactory.importFromXML(xmlStream, AircraftSTAXParser.class);
+        //List<Aircraft> planeList = ImportFactory.importFromXML(xmlStream, AircraftSTAXParser.class);
         List<Aircraft> planeList = ImportFactory.importFromXML(xmlStream, AircraftDOMParser.class);
 
         if (!planeList.isEmpty()) {
             log.trace("Show result of parsing");
             for (Aircraft aircraft : planeList) {
                 System.out.println(aircraft.toString());
+            }
+
+            // We need a wrapper to JAXB
+            Planes planesWrapper = new Planes(planeList);
+
+            // Save to XML
+            EntityExporter exporter = new JaxBExporter();
+            if (!exporter.export(planesWrapper, "out.xml")) {
+                log.info("Unable to save data to xml");
+            } else {
+                log.info("Data successfully saved to xml!");
             }
         } else {
             log.trace("No returned data");

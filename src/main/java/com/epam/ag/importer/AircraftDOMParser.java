@@ -42,7 +42,6 @@ public class AircraftDOMParser implements Importer {
     private List parseDOM(Document document) {
         Element root = document.getDocumentElement();
         document.getDocumentElement().normalize();
-        System.out.println("Root element :" + document.getDocumentElement().getNodeName());
 
         NodeList nList = document.getElementsByTagName("plane");
         for (int temp = 0; temp < nList.getLength(); temp++) {
