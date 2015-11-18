@@ -22,9 +22,15 @@ public class Properties {
     // TODO Что подсвечивает Idea
     //
     public <T> T get(String param, Class<T> clazz) {
-        return (T) propertyMap.get(param);
+        try {
+            return (T) propertyMap.get(param);
+        } catch(ClassCastException e) {
+            return null;
+        }
+        ///return (T) propertyMap.get(param);
         //return clazz.cast(propertyMap.get(param));
     }
+
 
     @Override
     public String toString() {
