@@ -41,14 +41,15 @@ public class App {
         InputStream xmlStream = classLoader.getResourceAsStream("xml/planes.xml");
 
         Aircraft plane = new Plane();
-        plane.setModel("SU-9");
-        plane.setOrigin("USSR");
 
-        plane.setCharacteristic("type", "патрульный");
-        plane.setCharacteristic("seats", 1);
-        plane.setCharacteristic("weapons", false);
-        plane.setCharacteristic("missiles", 0);
-        plane.setCharacteristic("hasRadar", false);
+//        plane.setModel("SU-9");
+//        plane.setOrigin("USSR");
+//
+//        plane.setCharacteristic("type", "патрульный");
+//        plane.setCharacteristic("seats", 1);
+//        plane.setCharacteristic("weapons", false);
+//        plane.setCharacteristic("missiles", 0);
+//        plane.setCharacteristic("hasRadar", false);
 
 
 
@@ -62,12 +63,20 @@ public class App {
 
         // TEST 2
         Properties pp = new Properties();
-        pp.set("par1", new Property<>(5));
-        pp.set("par2", new Property<>("test"));
+        pp.set("par2", "test");
+        pp.set("par1", 5);
+        pp.set("bb-test", true);
+        pp.set("d-test", 2.56);
 
         int x = pp.get("par1", Integer.class);
         String s = pp.get("par2", String.class);
+        boolean b = pp.get("bb-test", Boolean.class);
+        double d = pp.get("d-test", Double.class);
+
         System.out.println("X = " + x);
+        System.out.println("S = " + s);
+        System.out.println("B = " + b);
+        System.out.println("D = " + d);
 
 
 

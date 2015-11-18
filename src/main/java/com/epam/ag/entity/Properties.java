@@ -2,6 +2,7 @@ package com.epam.ag.entity;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author Govorov Andrey
@@ -14,23 +15,17 @@ public class Properties {
         propertyMap = new HashMap<>();
     }
 
-    public void set(String param, Property value) {
+    public void set(String param, Object value) {
         propertyMap.put(param, new Property<>(value));
     }
 
-    //
-    // TODO Что подсвечивает Idea
-    //
-    public <T> T get(String param, Class<T> clazz) {
-        try {
-            return (T) propertyMap.get(param);
-        } catch(ClassCastException e) {
-            return null;
-        }
-        ///return (T) propertyMap.get(param);
-        //return clazz.cast(propertyMap.get(param));
-    }
 
+    public <T> T get(String param, Class<T> clazz) {
+        //return (T) propertyMap.get(param).getValue();
+        Property property = propertyMap.get(param);
+        Object value = property.getValue();
+        return clazz.cast(value);
+    }
 
     @Override
     public String toString() {
