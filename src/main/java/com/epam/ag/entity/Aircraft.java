@@ -1,19 +1,11 @@
 package com.epam.ag.entity;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
  * @author Govorov Andrey
  */
 public abstract class Aircraft {
     private String model;
     private String origin;
-
 
     // Characteristics
     private String type;
@@ -30,10 +22,6 @@ public abstract class Aircraft {
     // Price
     private double priceAmount;
     private String priceCurrency;
-
-    private Characteristic characteristics;
-    private Parameters parameters;
-    private Price price;
 
     public String getModel() {
         return model;

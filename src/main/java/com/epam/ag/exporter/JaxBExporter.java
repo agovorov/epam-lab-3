@@ -13,6 +13,7 @@ public class JaxBExporter implements EntityExporter {
 
     @Override
     public boolean export(Object exportClass, String exportToFilename) {
+        log.trace("Start JAXB exporting");
         File file = new File(exportToFilename);
 
         try {

@@ -6,6 +6,6 @@ package com.epam.ag.entity.converter;
 public class DoubleConverter implements Converter{
     @Override
     public Object convert(String value) {
-        return Double.valueOf(value);
+        return Double.parseDouble(value);
     }
 }

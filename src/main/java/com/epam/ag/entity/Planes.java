@@ -17,7 +17,8 @@ public class Planes {
     @XmlElement(name = "plane", type = Plane.class)
     private List<Aircraft> planes = new ArrayList<>();
 
-    public Planes() {}
+    public Planes() {
+    }
 
     public Planes(List<Aircraft> books) {
         this.planes = books;

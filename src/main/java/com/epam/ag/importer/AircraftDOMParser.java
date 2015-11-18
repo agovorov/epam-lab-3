@@ -2,6 +2,8 @@ package com.epam.ag.importer;
 
 import com.epam.ag.entity.Aircraft;
 import com.epam.ag.entity.Plane;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -18,8 +20,9 @@ import java.util.List;
  */
 public class AircraftDOMParser implements Importer {
 
+    private static final Logger log = LoggerFactory.getLogger(AircraftDOMParser.class);
+
     private List<Aircraft> aircrafts;
-    private Aircraft aircraft;
 
     public AircraftDOMParser() {
         aircrafts = new ArrayList<>();
@@ -27,12 +30,14 @@ public class AircraftDOMParser implements Importer {
 
     @Override
     public List parse(InputStream is) {
+        log.trace("Init DOM parser.");
         Document document;
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder documentBuilder = factory.newDocumentBuilder();
             document = documentBuilder.parse(is);
         } catch (Exception e) {
+            log.error("Error while parsing with DOM parser. Error: {}", e.getMessage());
             throw new RuntimeException(e);
         }
 
@@ -40,15 +45,14 @@ public class AircraftDOMParser implements Importer {
     }
 
     private List parseDOM(Document document) {
-        Element root = document.getDocumentElement();
+        log.trace("Start parsing using DOM parser.");
         document.getDocumentElement().normalize();
-
         NodeList nList = document.getElementsByTagName("plane");
         for (int temp = 0; temp < nList.getLength(); temp++) {
             Node nNode = nList.item(temp);
-            aircraft = new Plane();
+            Aircraft aircraft = new Plane();
+            log.trace("New Plane element founded");
 
-            // http://www.mkyong.com/java/how-to-read-xml-file-in-java-dom-parser/
             if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                 Element eElement = (Element) nNode;
                 aircraft.setModel(eElement.getElementsByTagName("model").item(0).getTextContent());

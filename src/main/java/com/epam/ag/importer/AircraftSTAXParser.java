@@ -73,6 +73,12 @@ public class AircraftSTAXParser implements Importer {
         return aircrafts;
     }
 
+    /**
+     * Very simple implementation for concrete Class
+     *
+     * @param tagName
+     * @param value
+     */
     private void saveTagToModel(String tagName, String value) {
         switch (tagName) {
             case "model":

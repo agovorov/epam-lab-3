@@ -38,6 +38,7 @@ import java.util.List;
  *         Корневой элемент назвать Plane.
  */
 public class App {
+
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(App.class);
 
     public static void main(String[] args) {
@@ -46,17 +47,12 @@ public class App {
         InputStream xmlStream = classLoader.getResourceAsStream("xml/planes.xml");
 
         //List<Aircraft> planeList = ImportFactory.importFromXML(xmlStream, AircraftSAXParser.class);
-        List<Aircraft> planeList = ImportFactory.importFromXML(xmlStream, AircraftSTAXParser.class);
-        //List<Aircraft> planeList = ImportFactory.importFromXML(xmlStream, AircraftDOMParser.class);
+        //List<Aircraft> planeList = ImportFactory.importFromXML(xmlStream, AircraftSTAXParser.class);
+        List<Aircraft> planeList = ImportFactory.importFromXML(xmlStream, AircraftDOMParser.class);
 
         if (!planeList.isEmpty()) {
-            log.trace("Show result of parsing");
-            for (Aircraft aircraft : planeList) {
-                System.out.println(aircraft.toString());
-            }
+            log.trace("Save to XML");
 
-
-            /*
             // We need a wrapper to JAXB
             Planes planesWrapper = new Planes(planeList);
 
@@ -67,7 +63,6 @@ public class App {
             } else {
                 log.info("Data successfully saved to xml!");
             }
-            */
         } else {
             log.trace("No returned data");
         }

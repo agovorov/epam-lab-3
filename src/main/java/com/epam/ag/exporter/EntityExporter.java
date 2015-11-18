@@ -1,7 +1,5 @@
 package com.epam.ag.exporter;
 
-import java.util.List;
-
 /**
  * @author Govorov Andrey
  */

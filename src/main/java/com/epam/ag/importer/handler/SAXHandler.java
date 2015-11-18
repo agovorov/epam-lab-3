@@ -14,44 +14,26 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Govorov Andrey
  */
 public class SAXHandler extends DefaultHandler {
-    private static Class scanClass;
     private static final Logger log = LoggerFactory.getLogger(SAXHandler.class);
+    private static Class scanClass;
     private static Map<String, Class<?>> methodTypes;
     private static Map<String, Method> methods;
     private static Map<String, Converter> converters;
 
     private StringBuilder accumulator;
-    private String currentTagName;
-    private Deque stack;
-
     private List<Aircraft> aircrafts;
     private Aircraft aircraft;
 
-    //
-    // TODO Бредовая функция, но пока это лучшее что придумал
-    //
-    private String getPreviousStackValue() {
-        Iterator x = stack.descendingIterator();
-        if (!x.hasNext()) {
-            return "";
-        }
-        x.next();
-
-        if (!x.hasNext()) {
-            return "";
-        }
-        return (String) x.next();
-    }
-
     public SAXHandler() {
-        stack = new ArrayDeque();//LinkedList();
-
         // Scanning class for methods and types
         scanClassForMethods(Aircraft.class);
         scanClass = Plane.class;
@@ -65,6 +47,8 @@ public class SAXHandler extends DefaultHandler {
 
     /**
      * Extract all methods from Aircraft class with its parameters types to methodTypes map
+     *
+     * @param clazz Parse class
      */
     public void scanClassForMethods(Class clazz) {
         methodTypes = new HashMap<>();
@@ -100,7 +84,6 @@ public class SAXHandler extends DefaultHandler {
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-        stack.addLast(qName);
         accumulator.setLength(0);
 
         String className = scanClass.getSimpleName().toLowerCase();
@@ -134,9 +117,6 @@ public class SAXHandler extends DefaultHandler {
             log.trace("Object plane added to list");
             aircrafts.add(aircraft);
         }
-
-        // Delete from stack
-        stack.removeLast();
     }
 
     @Override
@@ -145,13 +125,12 @@ public class SAXHandler extends DefaultHandler {
     }
 
     /**
-     * Fill object plane with data
+     * Fill object class with data
      *
      * @param param Field of the model
      * @param value Value of the model
      */
     private void fillAircraftClass(String param, String value) {
-        /// String previousTagName = getPreviousStackValue();
         String methodNameCase = param.substring(0, 1).toUpperCase() + param.substring(1);
         String setMethodName = "set" + methodNameCase;
 
