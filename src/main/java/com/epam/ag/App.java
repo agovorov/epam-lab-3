@@ -1,9 +1,6 @@
 package com.epam.ag;
 
-import com.epam.ag.entity.Aircraft;
-import com.epam.ag.entity.Plane;
-import com.epam.ag.entity.Properties;
-import com.epam.ag.entity.Property;
+import com.epam.ag.entity.*;
 import org.slf4j.Logger;
 
 import java.io.InputStream;
@@ -40,93 +37,47 @@ public class App {
         ClassLoader classLoader = App.class.getClassLoader();
         InputStream xmlStream = classLoader.getResourceAsStream("xml/planes.xml");
 
-        Aircraft plane = new Plane();
+        Plane plane = new Plane();
+        plane.setModel("SU-9");
+        plane.setOrigin("USSR");
 
-//        plane.setModel("SU-9");
-//        plane.setOrigin("USSR");
-//
-//        plane.setCharacteristic("type", "патрульный");
-//        plane.setCharacteristic("seats", 1);
-//        plane.setCharacteristic("weapons", false);
-//        plane.setCharacteristic("missiles", 0);
-//        plane.setCharacteristic("hasRadar", false);
+        plane.setCharacteristic("type", "патрульный");
+        plane.setCharacteristic("seats", 1);
+        plane.setCharacteristic("weapons", false);
+        plane.setCharacteristic("missiles", 0);
+        plane.setCharacteristic("hasRadar", true);
 
+        plane.setParameter("length", 9.14);
+        plane.setParameter("width", 13.50);
+        plane.setParameter("height", 2.85);
 
+        plane.setPrice("amount", 123456.34);
+        plane.setPrice("currency", "Талер");
 
-        // TEST 1
-//        Property p = new Property<Integer>(5);
-//        int w = p.getValue();
-//
-//        System.out.println( w);
+        //
+        System.out.println(plane.getModel());
+        String s = plane.getCharacteristic("type", String.class);
+        int i = plane.getCharacteristic("seats", Integer.class);
+        boolean b = plane.getCharacteristic("weapons", Boolean.class);
+        int d = plane.getCharacteristic("missiles", Integer.class);
 
+        double width = plane.getParameter("width", Double.class);
+        double length = plane.getParameter("length", Double.class);
+        double height = plane.getParameter("height", Double.class);
 
+        double amount = plane.getPrice("amount", Double.class);
+        String currency = plane.getPrice("currency", String.class);
 
-        // TEST 2
-        Properties pp = new Properties();
-        pp.set("par2", "test");
-        pp.set("par1", 5);
-        pp.set("bb-test", true);
-        pp.set("d-test", 2.56);
-
-        int x = pp.get("par1", Integer.class);
-        String s = pp.get("par2", String.class);
-        boolean b = pp.get("bb-test", Boolean.class);
-        double d = pp.get("d-test", Double.class);
-
-        System.out.println("X = " + x);
-        System.out.println("S = " + s);
-        System.out.println("B = " + b);
-        System.out.println("D = " + d);
-
-
-
-
-
-
-
-        // Надо чтобы работало :(
-        //System.out.println( plane.getChar() );
-
-        //String  a1 = plane.get("type", String.class);
-        //int     a2 = plane.get("seats", Integer.class);
-        // boolean a3 = plane.get("weapons", Boolean.class);
-//        int     a4 = plane.get("missiles", Integer.class);
-//        boolean a5 = plane.get("hasRadar", Boolean.class);
-
-        /*
-        Property<Integer> p1 = new Property<>(2);
-        Property<Integer> p2 = new Property<>(3);
-        Property<String> p3 = new Property<>("String");
-        Property<Boolean> p4 = new Property<>(true);
-        Property<Double> p5 = new Property<>(4.56);
-
-        int t1 = p1.getValue();
-        int t2 = p2.getValue();
-        String t3 = p3.getValue();
-        Boolean t4 = p4.getValue();
-        Double t5 = p5.getValue();
-
-        System.out.println( t1 + t2 );*/
-
-
-
-        /*
-        System.out.println( p1.getValue().getClass() );
-        System.out.println( p1.getValue() );
-        */
-        //int tt = p1.getValue() + p2.getValue();
-
-
-
-
-        /*
-        plans.setParameters("length", 9.14);
-        plans.setParameters("width", 13.50);
-        plans.setParameters("height", 9.14);
-        */
-
-        //int y = 2 + (Integer) plane.setCharacteristic("seats");
-
+        System.out.println("i = " + i);
+        System.out.println("b = " + b);
+        System.out.println("d = " + d);
+        System.out.println();
+        System.out.println("Width: " + width);
+        System.out.println("Length: " + length);
+        System.out.println("Height: " + height);
+        System.out.println();
+        System.out.println("Amount: " + amount);
+        System.out.println("Currency: " + currency);
 
         //List<Aircraft> planeList = ImportFactory.importFromXML(xmlStream, AircraftSAXParser.class);
         //List<Aircraft> planeList = ImportFactory.importFromXML(xmlStream, AircraftSTAXParser.class);

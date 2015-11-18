@@ -9,8 +9,9 @@ import java.util.Map;
 
 /**
  * @author Govorov Andrey
+ * @deprecated
  */
-public abstract class Aircraft {
+public class Aircraft {
     private String model;
     private String origin;
 

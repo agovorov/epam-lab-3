@@ -18,8 +18,8 @@ import java.util.List;
  */
 public class AircraftDOMParser implements Importer {
 
-    private List<Aircraft> aircrafts;
-    private Aircraft aircraft;
+    private List<Plane> aircrafts;
+    private Plane plane;
 
     public AircraftDOMParser() {
         aircrafts = new ArrayList<>();
@@ -46,28 +46,28 @@ public class AircraftDOMParser implements Importer {
         NodeList nList = document.getElementsByTagName("plane");
         for (int temp = 0; temp < nList.getLength(); temp++) {
             Node nNode = nList.item(temp);
-            aircraft = new Plane();
+            plane = new Plane();
 
             // http://www.mkyong.com/java/how-to-read-xml-file-in-java-dom-parser/
-            if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-                Element eElement = (Element) nNode;
-                aircraft.setModel(eElement.getElementsByTagName("model").item(0).getTextContent());
-                aircraft.setOrigin(eElement.getElementsByTagName("origin").item(0).getTextContent());
-                aircraft.setType(eElement.getElementsByTagName("type").item(0).getTextContent());
-                aircraft.setSeats(Integer.parseInt(eElement.getElementsByTagName("seats").item(0).getTextContent()));
-                aircraft.setWeapons(Boolean.parseBoolean(eElement.getElementsByTagName("weapons").item(0).getTextContent()));
-                aircraft.setMissiles(Integer.parseInt(eElement.getElementsByTagName("missiles").item(0).getTextContent()));
-                aircraft.setHasRadar(Boolean.parseBoolean(eElement.getElementsByTagName("hasRadar").item(0).getTextContent()));
-
-                aircraft.setLength(Double.parseDouble(eElement.getElementsByTagName("length").item(0).getTextContent()));
-                aircraft.setWidth(Double.parseDouble(eElement.getElementsByTagName("width").item(0).getTextContent()));
-                aircraft.setHeight(Double.parseDouble(eElement.getElementsByTagName("height").item(0).getTextContent()));
-
-                aircraft.setAmount(Double.parseDouble(eElement.getElementsByTagName("amount").item(0).getTextContent()));
-                aircraft.setCurrency(eElement.getElementsByTagName("currency").item(0).getTextContent());
-
-                aircrafts.add(aircraft);
-            }
+//            if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+//                Element eElement = (Element) nNode;
+//                plane.setModel(eElement.getElementsByTagName("model").item(0).getTextContent());
+//                plane.setOrigin(eElement.getElementsByTagName("origin").item(0).getTextContent());
+//                plane.setType(eElement.getElementsByTagName("type").item(0).getTextContent());
+//                plane.setSeats(Integer.parseInt(eElement.getElementsByTagName("seats").item(0).getTextContent()));
+//                plane.setWeapons(Boolean.parseBoolean(eElement.getElementsByTagName("weapons").item(0).getTextContent()));
+//                plane.setMissiles(Integer.parseInt(eElement.getElementsByTagName("missiles").item(0).getTextContent()));
+//                plane.setHasRadar(Boolean.parseBoolean(eElement.getElementsByTagName("hasRadar").item(0).getTextContent()));
+//
+//                plane.setLength(Double.parseDouble(eElement.getElementsByTagName("length").item(0).getTextContent()));
+//                plane.setWidth(Double.parseDouble(eElement.getElementsByTagName("width").item(0).getTextContent()));
+//                plane.setHeight(Double.parseDouble(eElement.getElementsByTagName("height").item(0).getTextContent()));
+//
+//                plane.setAmount(Double.parseDouble(eElement.getElementsByTagName("amount").item(0).getTextContent()));
+//                plane.setCurrency(eElement.getElementsByTagName("currency").item(0).getTextContent());
+//
+//                aircrafts.add(plane);
+//            }
         }
 
         return aircrafts;

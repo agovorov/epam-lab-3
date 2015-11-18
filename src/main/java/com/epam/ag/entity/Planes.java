@@ -15,19 +15,19 @@ import java.util.List;
 public class Planes {
 
     @XmlElement(name = "plane", type = Plane.class)
-    private List<Aircraft> planes = new ArrayList<>();
+    private List<Plane> planes = new ArrayList<>();
 
     public Planes() {}
 
-    public Planes(List<Aircraft> books) {
-        this.planes = books;
+    public Planes(List<Plane> planes) {
+        this.planes = planes;
     }
 
-    public List<Aircraft> getPlanes() {
+    public List<Plane> getPlanes() {
         return planes;
     }
 
-    public void setPlanes(List<Aircraft> planes) {
+    public void setPlanes(List<Plane> planes) {
         this.planes = planes;
     }
 }

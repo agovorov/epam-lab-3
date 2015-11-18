@@ -4,10 +4,21 @@ public class Price {
     private double amount;
     private String currency;
 
-    public Price(){
+    public Properties properties;
 
+    public Price() {
+        properties = new Properties();
     }
 
+    public void set(String param, Object value) {
+        properties.set(param, value);
+    }
+
+    public <T> T get(String param, Class<T> clazz) {
+        return properties.get(param, clazz);
+    }
+
+    /*
     public Price(double amount, String currency) {
         this.amount = amount;
         this.currency = currency;
@@ -17,15 +28,7 @@ public class Price {
         return amount;
     }
 
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
-
     public String getCurrency() {
         return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
+    }*/
 }

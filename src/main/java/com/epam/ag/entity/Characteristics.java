@@ -1,15 +1,17 @@
 package com.epam.ag.entity;
 
-public class Parameters {
+public class Characteristics {
 
     // My "annotation"
-    private double length;
-    private double width;
-    private double height;
+    private String type;
+    private int seats;
+    private boolean weapons;
+    private int missiles;
+    private boolean hasRadar;
 
-    public Properties properties;
+    private Properties properties;
 
-    public Parameters() {
+    public Characteristics() {
         properties = new Properties();
     }
 
@@ -20,6 +22,4 @@ public class Parameters {
     public <T> T get(String param, Class<T> clazz) {
         return properties.get(param, clazz);
     }
-
-
 }

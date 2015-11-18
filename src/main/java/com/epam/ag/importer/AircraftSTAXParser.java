@@ -21,7 +21,7 @@ public class AircraftSTAXParser implements Importer {
 
     private StringBuilder accumulator;
     private List<Aircraft> aircrafts;
-    private Aircraft aircraft;
+    private Plane plane;
 
     public AircraftSTAXParser() {
         accumulator = new StringBuilder();
@@ -43,7 +43,7 @@ public class AircraftSTAXParser implements Importer {
                         elementName = reader.getLocalName();
                         accumulator.setLength(0);
                         if ("plane".equals(elementName)) {
-                            aircraft = new Plane();
+                            plane = new Plane();
                             log.trace("New plane element founded.");
                         }
                         break;
@@ -51,7 +51,7 @@ public class AircraftSTAXParser implements Importer {
                     case XMLStreamConstants.END_ELEMENT:
                         elementName = reader.getLocalName();
                         if ("plane".equals(elementName)) {
-                            aircrafts.add(aircraft);
+                            //aircrafts.add(plane);
                             log.trace("Plane element added to list");
                         }
 
@@ -74,54 +74,54 @@ public class AircraftSTAXParser implements Importer {
     }
 
     private void saveTagToModel(String tagName, String value) {
-        switch (tagName) {
-            case "model":
-                aircraft.setModel(value);
-                break;
-
-            case "origin":
-                aircraft.setOrigin(value);
-                break;
-
-            case "type":
-                aircraft.setType(value);
-                break;
-
-            case "seats":
-                aircraft.setSeats(Integer.parseInt(value));
-                break;
-
-            case "weapons":
-                aircraft.setWeapons(Boolean.parseBoolean(value));
-                break;
-
-            case "missiles":
-                aircraft.setMissiles(Integer.parseInt(value));
-                break;
-
-            case "hasRadar":
-                aircraft.setHasRadar(Boolean.parseBoolean(value));
-                break;
-
-            case "length":
-                aircraft.setLength(Double.parseDouble(value));
-                break;
-
-            case "width":
-                aircraft.setWidth(Double.parseDouble(value));
-                break;
-
-            case "height":
-                aircraft.setHeight(Double.parseDouble(value));
-                break;
-
-            case "amount":
-                aircraft.setAmount(Double.parseDouble(value));
-                break;
-
-            case "currency":
-                aircraft.setCurrency(value);
-                break;
-        }
+//        switch (tagName) {
+//            case "model":
+//                aircraft.setModel(value);
+//                break;
+//
+//            case "origin":
+//                aircraft.setOrigin(value);
+//                break;
+//
+//            case "type":
+//                aircraft.setType(value);
+//                break;
+//
+//            case "seats":
+//                aircraft.setSeats(Integer.parseInt(value));
+//                break;
+//
+//            case "weapons":
+//                aircraft.setWeapons(Boolean.parseBoolean(value));
+//                break;
+//
+//            case "missiles":
+//                aircraft.setMissiles(Integer.parseInt(value));
+//                break;
+//
+//            case "hasRadar":
+//                aircraft.setHasRadar(Boolean.parseBoolean(value));
+//                break;
+//
+//            case "length":
+//                aircraft.setLength(Double.parseDouble(value));
+//                break;
+//
+//            case "width":
+//                aircraft.setWidth(Double.parseDouble(value));
+//                break;
+//
+//            case "height":
+//                aircraft.setHeight(Double.parseDouble(value));
+//                break;
+//
+//            case "amount":
+//                aircraft.setAmount(Double.parseDouble(value));
+//                break;
+//
+//            case "currency":
+//                aircraft.setCurrency(value);
+//                break;
+//        }
     }
 }

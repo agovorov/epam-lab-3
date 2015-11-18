@@ -19,6 +19,16 @@ public class Properties {
         propertyMap.put(param, new Property<>(value));
     }
 
+    /*
+    public Object get(String param) {
+        // Получаем тип параметра
+        Object o = propertyMap.get(param).getValue();
+        // Class clazz =  .getValue().getClass();
+        Class clazz = o.getClass();
+
+        return clazz.cast(o);
+    }
+    */
 
     public <T> T get(String param, Class<T> clazz) {
         //return (T) propertyMap.get(param).getValue();
