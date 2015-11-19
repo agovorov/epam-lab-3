@@ -1,8 +1,8 @@
 package com.epam.ag.entity;
 
+import com.epam.ag.entity.utils.Converter;
+
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlValue;
 
 /**
  * @author Govorov Andrey
@@ -11,8 +11,10 @@ public class Property<T> {
     // Это лишнее
     @XmlAttribute
     public String name;
+    public String value2;
 
-    @XmlValue
+
+    //@XmlValue
     private T value;
 
     public Property() {
@@ -25,6 +27,11 @@ public class Property<T> {
 
     public T getValue() {
         return value;
+    }
+
+    public String getValueAsString() {
+        Converter converter = new Converter();
+        return converter.convertToStr(value);
     }
 
     @Override

@@ -1,13 +1,12 @@
 package com.epam.ag.entity;
 
-import com.epam.ag.entity.adapter.CharacteristicMapAdapter;
+import com.epam.ag.entity.adapter.PropertiesMapAdapter;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import java.beans.Transient;
 
 // http://stackoverflow.com/questions/3941479/jaxb-how-to-marshall-map-into-keyvalue-key
 
@@ -20,8 +19,8 @@ public class Plane {
     private String model;
     private String origin;
 
-    //@XmlJavaTypeAdapter(value=CharacteristicMapAdapter.class,  type=Property.class)
-    @XmlJavaTypeAdapter(value=CharacteristicMapAdapter.class)
+    //@XmlJavaTypeAdapter(value=PropertiesMapAdapter.class,  type=Property.class)
+    @XmlJavaTypeAdapter(value=PropertiesMapAdapter.class)
     private Properties characteristics;
 
     @XmlTransient
@@ -52,7 +51,7 @@ public class Plane {
         this.origin = origin;
     }
 
-    //@XmlJavaTypeAdapter(CharacteristicMapAdapter.class)
+    //@XmlJavaTypeAdapter(PropertiesMapAdapter.class)
     public <T> T getCharacteristic(String param, Class clazz) {
         return (T) characteristics.get(param, clazz);
     }

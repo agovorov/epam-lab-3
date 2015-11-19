@@ -20,7 +20,7 @@ public class JaxBExporter implements EntityExporter {
             Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
             jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
-            jaxbMarshaller.marshal(exportClass, file);
+           // jaxbMarshaller.marshal(exportClass, file);
             jaxbMarshaller.marshal(exportClass, System.out);
         } catch (JAXBException e) {
             e.printStackTrace();
