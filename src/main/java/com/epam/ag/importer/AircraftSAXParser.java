@@ -36,4 +36,9 @@ public class AircraftSAXParser implements Importer {
 
         return handler.returnList();
     }
+
+    @Override
+    public List parse(InputStream is, Class sourceClass) {
+        return null;
+    }
 }

@@ -1,12 +1,15 @@
 package com.epam.ag;
 
 import com.epam.ag.entity.Plane;
+import com.epam.ag.importer.PlaneSAXParser;
 import com.epam.ag.entity.Planes;
 import com.epam.ag.exporter.EntityExporter;
 import com.epam.ag.exporter.JaxBExporter;
+import com.epam.ag.importer.ImportFactory;
 import org.slf4j.Logger;
 
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * @author Govorov Andrey
@@ -90,6 +93,8 @@ public class App {
         } else {
             log.info("Data successfully saved to xml!");
         }
+
+        List planesList = ImportFactory.ImportFromXML(xmlStream, PlaneSAXParser.class, Planes.class);
 
         //List<Aircraft> planeList = ImportFactory.importFromXML(xmlStream, AircraftSAXParser.class);
         //List<Aircraft> planeList = ImportFactory.importFromXML(xmlStream, AircraftSTAXParser.class);

@@ -10,5 +10,5 @@ import java.util.List;
 public interface Importer {
 
     List parse(InputStream is);
-
+    List parse(InputStream is, Class sourceClass);
 }
