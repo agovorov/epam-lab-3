@@ -73,6 +73,11 @@ public class AircraftSTAXParser implements Importer {
         return aircrafts;
     }
 
+    @Override
+    public List parse(InputStream is, Class sourceClass) {
+        return null;
+    }
+
     private void saveTagToModel(String tagName, String value) {
 //        switch (tagName) {
 //            case "model":

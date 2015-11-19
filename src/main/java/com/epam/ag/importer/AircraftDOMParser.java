@@ -39,6 +39,11 @@ public class AircraftDOMParser implements Importer {
         return parseDOM(document);
     }
 
+    @Override
+    public List parse(InputStream is, Class sourceClass) {
+        return null;
+    }
+
     private List parseDOM(Document document) {
         Element root = document.getDocumentElement();
         document.getDocumentElement().normalize();

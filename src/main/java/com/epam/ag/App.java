@@ -83,10 +83,8 @@ public class App {
 
         plane2.setPrice("amount", 544432.34);
         plane2.setPrice("currency", "Талер");
-        */
         //planes.add(plane2);
-
-
+    */
         EntityExporter exporter = new JaxBExporter();
         if (!exporter.export(planes, "out.xml")) {
             log.info("Unable to save data to xml");
@@ -94,7 +92,7 @@ public class App {
             log.info("Data successfully saved to xml!");
         }
 
-        List planesList = ImportFactory.ImportFromXML(xmlStream, PlaneSAXParser.class, Planes.class);
+        //List planesList = ImportFactory.ImportFromXML(xmlStream, PlaneSAXParser.class, Plane.class);
 
         //List<Aircraft> planeList = ImportFactory.importFromXML(xmlStream, AircraftSAXParser.class);
         //List<Aircraft> planeList = ImportFactory.importFromXML(xmlStream, AircraftSTAXParser.class);
