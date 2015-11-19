@@ -1,5 +1,10 @@
 package com.epam.ag.entity;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+
+@XmlAccessorType(XmlAccessType.FIELD)
+@Deprecated
 public class Price {
     private double amount;
     private String currency;

@@ -23,6 +23,7 @@ public class JaxBExporter implements EntityExporter {
             jaxbMarshaller.marshal(exportClass, file);
             jaxbMarshaller.marshal(exportClass, System.out);
         } catch (JAXBException e) {
+            e.printStackTrace();
             log.error("Unable to create XML file from object. ({})", e.getMessage());
             return false;
         }

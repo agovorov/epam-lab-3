@@ -1,5 +1,8 @@
 package com.epam.ag.entity;
 
+import com.epam.ag.entity.adapter.PropertiesAdapter;
+
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -9,6 +12,7 @@ import java.util.Objects;
  */
 public class Properties {
 
+    // @XmlJavaTypeAdapter(PropertiesAdapter.class)
     private Map<String, Property> propertyMap;
 
     public Properties () {
@@ -19,22 +23,15 @@ public class Properties {
         propertyMap.put(param, new Property<>(value));
     }
 
-    /*
-    public Object get(String param) {
-        // Получаем тип параметра
-        Object o = propertyMap.get(param).getValue();
-        // Class clazz =  .getValue().getClass();
-        Class clazz = o.getClass();
-
-        return clazz.cast(o);
-    }
-    */
-
     public <T> T get(String param, Class<T> clazz) {
         //return (T) propertyMap.get(param).getValue();
         Property property = propertyMap.get(param);
         Object value = property.getValue();
         return clazz.cast(value);
+    }
+
+    public Map getMap() {
+        return propertyMap;
     }
 
     @Override

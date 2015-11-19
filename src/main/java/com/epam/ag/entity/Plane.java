@@ -1,26 +1,39 @@
 package com.epam.ag.entity;
 
+import com.epam.ag.entity.adapter.CharacteristicMapAdapter;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import java.beans.Transient;
+
+// http://stackoverflow.com/questions/3941479/jaxb-how-to-marshall-map-into-keyvalue-key
 
 /**
  * @author Govorov Andrey
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
-public class Plane  {
+public class Plane {
     private String model;
     private String origin;
 
-    private Characteristics characteristics;
-    private Parameters parameters;
-    private Price price;
+    //@XmlJavaTypeAdapter(value=CharacteristicMapAdapter.class,  type=Property.class)
+    @XmlJavaTypeAdapter(value=CharacteristicMapAdapter.class)
+    private Properties characteristics;
+
+    @XmlTransient
+    private Properties parameters;
+
+    @XmlTransient
+    private Properties price;
 
     public Plane() {
-        characteristics = new Characteristics();
-        parameters = new Parameters();
-        price = new Price();
+        characteristics = new Properties();
+        parameters = new Properties();
+        price = new Properties();
     }
 
     public String getModel() {
@@ -39,6 +52,7 @@ public class Plane  {
         this.origin = origin;
     }
 
+    //@XmlJavaTypeAdapter(CharacteristicMapAdapter.class)
     public <T> T getCharacteristic(String param, Class clazz) {
         return (T) characteristics.get(param, clazz);
     }
@@ -64,11 +78,14 @@ public class Plane  {
         price.set(param, value);
     }
 
-    /*public Price getPrice() {
-        return price;
+    @Override
+    public String toString() {
+        return "Aircraft{" +
+                "model='" + model + '\'' +
+                ", origin='" + origin + '\'' +
+                ", characteristics='" + characteristics + '\'' +
+                ", parameters=" + parameters +
+                ", price=" + price + '\'' +
+                '}';
     }
-
-    public void setPrice(Price price) {
-        this.price = price;
-    }*/
 }

@@ -1,6 +1,9 @@
 package com.epam.ag;
 
-import com.epam.ag.entity.*;
+import com.epam.ag.entity.Plane;
+import com.epam.ag.entity.Planes;
+import com.epam.ag.exporter.EntityExporter;
+import com.epam.ag.exporter.JaxBExporter;
 import org.slf4j.Logger;
 
 import java.io.InputStream;
@@ -37,6 +40,11 @@ public class App {
         ClassLoader classLoader = App.class.getClassLoader();
         InputStream xmlStream = classLoader.getResourceAsStream("xml/planes.xml");
 
+
+        // Список самолетов
+        Planes planes = new Planes();
+
+        // First plane
         Plane plane = new Plane();
         plane.setModel("SU-9");
         plane.setOrigin("USSR");
@@ -53,31 +61,35 @@ public class App {
 
         plane.setPrice("amount", 123456.34);
         plane.setPrice("currency", "Талер");
+        planes.add(plane);
 
-        //
-        System.out.println(plane.getModel());
-        String s = plane.getCharacteristic("type", String.class);
-        int i = plane.getCharacteristic("seats", Integer.class);
-        boolean b = plane.getCharacteristic("weapons", Boolean.class);
-        int d = plane.getCharacteristic("missiles", Integer.class);
+        // Test plane 2
+        /*Plane plane2 = new Plane();
+        plane2.setModel("SU-12");
+        plane2.setOrigin("USSR");
 
-        double width = plane.getParameter("width", Double.class);
-        double length = plane.getParameter("length", Double.class);
-        double height = plane.getParameter("height", Double.class);
+        plane2.setCharacteristic("type", "исптребитель");
+        plane2.setCharacteristic("seats", 2);
+        plane2.setCharacteristic("weapons", true);
+        plane2.setCharacteristic("missiles", 10);
+        plane2.setCharacteristic("hasRadar", true);
 
-        double amount = plane.getPrice("amount", Double.class);
-        String currency = plane.getPrice("currency", String.class);
+        plane2.setParameter("length", 9.14);
+        plane2.setParameter("width", 13.50);
+        plane2.setParameter("height", 2.85);
 
-        System.out.println("i = " + i);
-        System.out.println("b = " + b);
-        System.out.println("d = " + d);
-        System.out.println();
-        System.out.println("Width: " + width);
-        System.out.println("Length: " + length);
-        System.out.println("Height: " + height);
-        System.out.println();
-        System.out.println("Amount: " + amount);
-        System.out.println("Currency: " + currency);
+        plane2.setPrice("amount", 544432.34);
+        plane2.setPrice("currency", "Талер");
+        */
+        //planes.add(plane2);
+
+
+        EntityExporter exporter = new JaxBExporter();
+        if (!exporter.export(planes, "out.xml")) {
+            log.info("Unable to save data to xml");
+        } else {
+            log.info("Data successfully saved to xml!");
+        }
 
         //List<Aircraft> planeList = ImportFactory.importFromXML(xmlStream, AircraftSAXParser.class);
         //List<Aircraft> planeList = ImportFactory.importFromXML(xmlStream, AircraftSTAXParser.class);

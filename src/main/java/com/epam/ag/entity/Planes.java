@@ -17,6 +17,7 @@ public class Planes {
     @XmlElement(name = "plane", type = Plane.class)
     private List<Plane> planes = new ArrayList<>();
 
+
     public Planes() {}
 
     public Planes(List<Plane> planes) {
@@ -29,5 +30,9 @@ public class Planes {
 
     public void setPlanes(List<Plane> planes) {
         this.planes = planes;
+    }
+
+    public void add(Plane plane) {
+        planes.add(plane);
     }
 }

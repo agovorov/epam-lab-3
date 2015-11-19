@@ -1,5 +1,11 @@
 package com.epam.ag.entity;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+//import javax.xml.bind.annotation.XmlTransient;
+
+//@XmlAccessorType(XmlAccessType.FIELD)
+@Deprecated
 public class Parameters {
 
     // My "annotation"
@@ -20,6 +26,4 @@ public class Parameters {
     public <T> T get(String param, Class<T> clazz) {
         return properties.get(param, clazz);
     }
-
-
 }
