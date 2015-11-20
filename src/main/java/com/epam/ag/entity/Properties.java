@@ -2,6 +2,7 @@ package com.epam.ag.entity;
 
 import com.epam.ag.entity.adapter.PropertiesAdapter;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,6 +11,7 @@ import java.util.Objects;
 /**
  * @author Govorov Andrey
  */
+@XmlRootElement(name = "Properties")
 public class Properties {
 
     // @XmlJavaTypeAdapter(PropertiesAdapter.class)

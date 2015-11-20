@@ -2,42 +2,58 @@ package com.epam.ag.entity.adapter;
 
 import com.epam.ag.entity.Prop;
 
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author Govorov Andrey
  */
-public class AdaptedProperties {
+public class AdaptedProperties extends JAXBElement<String> {
     // Имя переменной и есть название элемента в xml, как-то надо подставить свои...
     public List<Prop> property = new ArrayList<>();
 
 
-    /*
-    @XmlAttribute String name;
-    @XmlElement List<Value> value = new ArrayList<Value>();
-    Map<String, String> map = new HashMap<String, String>();
 
-    //
-    private static class Value {
-        @XmlAttribute String name;
-        @XmlValue
-        String value;
+
+
+    private static final long serialVersionUID = 1L;
+    public static final QName NAME = new QName("characteristic");
+
+    public  AdaptedProperties() {
+        super(NAME, String.class, "TEST22");
     }
 
-    public void beforeMarshal(Marshaller marshaller) {
-        for(Map.Entry<String, String> entry : map.entrySet()) {
-            Value aValue = new Value();
-            aValue.name = entry.getKey();
-            aValue.value = entry.getValue();
-            value.add(aValue);
+    public AdaptedProperties(String value) {
+        super(NAME, String.class, value);
+    }
+
+    public AdaptedProperties(String characteristic, String value) {
+        super(NAME, String.class, value);
+        this.characteristic = characteristic;
+    }
+
+    @Override
+    public QName getName() {
+        final String characteristic = getCharacteristic();
+        System.out.println("AAA: " + characteristic);
+        if (characteristic != null) {
+            return new QName(characteristic);
         }
+        return super.getName();
     }
 
-    public void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
-        for(Value aValue : value) {
-            map.put(aValue.name, aValue.value);
-        }
+    private String characteristic;
+
+    @XmlTransient
+    public String getCharacteristic() {
+        return characteristic;
     }
-    */
+
+    public void setCharacteristic(String characteristic) {
+        this.characteristic = characteristic;
+    }
+
 }

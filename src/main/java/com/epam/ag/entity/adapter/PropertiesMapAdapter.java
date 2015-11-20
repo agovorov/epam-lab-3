@@ -32,24 +32,24 @@ public class PropertiesMapAdapter extends XmlAdapter<AdaptedProperties, Properti
 
         AdaptedProperties adaptedProperties = new AdaptedProperties();
 
-        Map map = v.getMap();
-        Iterator it = map.entrySet().iterator();
-        while (it.hasNext()) {
-
-            Map.Entry pair = (Map.Entry) it.next();
-            Property property = (Property) pair.getValue();
-            System.out.println(pair.getKey() + " ==> " + property.getValueAsString());
-
-            //System.out.println( property.getValue() + " => " + property.getValueAsString().getClass()  );
-
-
-            Prop p = new Prop();
-            p.name =  (String) pair.getKey();
-            p.value = property.getValueAsString();
-
-            adaptedProperties.property.add(p);
-            it.remove(); // avoids a ConcurrentModificationException
-        }
+//        Map map = v.getMap();
+//        Iterator it = map.entrySet().iterator();
+//        while (it.hasNext()) {
+//
+//            Map.Entry pair = (Map.Entry) it.next();
+//            Property property = (Property) pair.getValue();
+//            System.out.println(pair.getKey() + " ==> " + property.getValueAsString());
+//
+//            //System.out.println( property.getValue() + " => " + property.getValueAsString().getClass()  );
+//
+//
+//            Prop p = new Prop();
+//            p.name =  (String) pair.getKey();
+//            p.value = property.getValueAsString();
+//
+//            adaptedProperties.property.add(p);
+//            it.remove(); // avoids a ConcurrentModificationException
+//        }
 
         Prop p = new Prop();
         p.name = "test";
