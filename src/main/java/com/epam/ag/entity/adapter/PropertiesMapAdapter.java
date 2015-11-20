@@ -9,6 +9,11 @@ import java.util.Iterator;
 import java.util.Map;
 
 /**
+ * http://stackoverflow.com/questions/5514752/xml-element-with-attribute-and-content-using-jaxb
+ * http://stackoverflow.com/questions/3284786/java-jaxb-unmarshall-xml-attributes-to-specific-java-object-attributes
+ *
+ * !!!
+ * http://stackoverflow.com/questions/26325201/how-can-i-make-a-class-field-become-a-tag-name-using-jaxb
  * @author Govorov Andrey
  */
 public class PropertiesMapAdapter extends XmlAdapter<AdaptedProperties, Properties> {

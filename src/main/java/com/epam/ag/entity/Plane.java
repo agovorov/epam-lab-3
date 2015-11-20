@@ -51,7 +51,6 @@ public class Plane {
         this.origin = origin;
     }
 
-    //@XmlJavaTypeAdapter(PropertiesMapAdapter.class)
     public <T> T getCharacteristic(String param, Class clazz) {
         return (T) characteristics.get(param, clazz);
     }
